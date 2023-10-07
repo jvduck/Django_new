@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Edicion producto
+{% endblock title %}
+
+{% block content %}
+<div class="container text-center">
+    <h2>Editar un producto</h2>
+</div>
+<div class="container-sm text-center">
+    <form class="form-control" action="{% url 'editar' producto.id %}" method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Nombre</label>
+            <input type="text" class="form-control" name="nombre" id="nombre" value="{{producto.nombre}}">
+            <div id="nombre_producto" class="form-text">nombre entre 1 y 15 caracteres</div>
+        </div>
+        <div class="mb-3">
+            <label for="precio" class="form-label">Precio</label>
+            <input type="number" class="form-control" name="precio" id="precio" value="{{producto.precio}}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="stock">Stock</label>
+            <input type="number" class="form-control" name="stock" id="stock" value="{{producto.stock}}">
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+        <a href="{% url 'index' %}" class="btn btn-danger">Cancelar</a>
+    </form>
+</div>
+{% endblock content %}
