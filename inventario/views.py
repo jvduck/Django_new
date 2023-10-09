@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from inventario.models import Productos
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+@login_required
 def listarProductos(req):
     productos = Productos.objects.all()
     contexto = {"productos":productos}
@@ -31,3 +33,11 @@ def editarProducto(req,id):
         #necesito si o si volver a guardar el producto
         producto.save()
         return redirect('index')
+
+def crearProducto(req):
+    nombre_post = req.POST["nombre"]
+    precio_post = req.POST["precio"]
+    stock_post = req.POST["stock"]
+    producto = Productos(nombre=nombre_post, precio=precio_post, stock=stock_post)
+    producto.save() #si o si preciso el save para guardar mi producto!!!
+    return redirect('index')

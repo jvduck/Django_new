@@ -7,8 +7,10 @@
 <!--llave simple: ejecuta un codigo de python -->
 {% block content %}
     <!--con doble llave, le decimos a Django que debe renderizar (mostrar) ese contenido-->
+    <a href="{% url 'logout' %}"><button class="btn btn-dark" type="button">Logout</button></a>
+    
     <div class="container text-center">
-        <h2>Listado de Prodcutos</h2>
+        <h2>Listado de Productos</h2>
     </div>
     
     <div class="container">
@@ -41,6 +43,44 @@
                 {% endfor %}
             </tbody>
         </table>
+    </div>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#crearProducto">Agregar Producto</button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="crearProducto" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Crear Producto</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'crear' %}" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" name="nombre" id="nombre" required>
+                            <div id="nombre_producto" class="form-text">nombre entre 1 y 15 caracteres</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="precio" class="form-label">Precio</label>
+                            <input type="number" class="form-control" name="precio" id="precio" step="0.1" min="0" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="stock">Stock</label>
+                            <input type="number" class="form-control" name="stock" id="stock" value="0" min="0" required>
+                        </div>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                        <a href="{% url 'index' %}" class="btn btn-danger">Cancelar</a>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
 {% endblock content %}
