@@ -11,19 +11,37 @@
 <div class="container-sm text-center">
     <form class="form-control" action="{% url 'editar' producto.id %}" method="post">
         {% csrf_token %}
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Nombre</label>
-            <input type="text" class="form-control" name="nombre" id="nombre" value="{{producto.nombre}}">
-            <div id="nombre_producto" class="form-text">nombre entre 1 y 15 caracteres</div>
-        </div>
-        <div class="mb-3">
-            <label for="precio" class="form-label">Precio</label>
-            <input type="number" class="form-control" name="precio" id="precio" value="{{producto.precio}}">
-        </div>
-        <div class="mb-3">
-            <label class="form-label" for="stock">Stock</label>
-            <input type="number" class="form-control" name="stock" id="stock" value="{{producto.stock}}">
-        </div>
+        {% comment %}
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Nombre</label>
+                <input type="text" class="form-control" name="nombre" id="nombre" value="{{producto.nombre}}">
+                <div id="nombre_producto" class="form-text">nombre entre 1 y 15 caracteres</div>
+            </div>
+            <div class="mb-3">
+                <label for="precio" class="form-label">Precio</label>
+                <input type="number" class="form-control" name="precio" id="precio" value="{{producto.precio}}">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="stock">Stock</label>
+                <input type="number" class="form-control" name="stock" id="stock" value="{{producto.stock}}">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="stock">Categoria</label>
+                <select class="fomr-select" name="categoria" id="categoria">
+                {% for categoria in categorias %}
+                    {% if categoria.id == producto.categoria_fk.id %}
+                        <option value="{{categoria.id}}" selected>{{categoria.category_name}}</option>
+                    {% else %}
+                        <option value="{{categoria.id}}">{{categoria.category_name}}</option>
+                    {% endif %}
+                {% endfor %}
+                </select>
+            </div>
+        {% endcomment %}
+
+        <table class="table table-bordered table-warning">
+            {{formulario.as_table}}
+        </table>
         <button type="submit" class="btn btn-primary">Enviar</button>
         <a href="{% url 'index' %}" class="btn btn-danger">Cancelar</a>
     </form>

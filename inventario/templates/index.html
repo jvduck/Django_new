@@ -7,13 +7,17 @@
 <!--llave simple: ejecuta un codigo de python -->
 {% block content %}
     <!--con doble llave, le decimos a Django que debe renderizar (mostrar) ese contenido-->
-    <a href="{% url 'logout' %}"><button class="btn btn-dark" type="button">Logout</button></a>
     
-    <div class="container text-center">
-        <h2>Listado de Productos</h2>
-    </div>
-    
-    <div class="container">
+    <div class="container p-3">
+        {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}"><button class="btn btn-dark" type="button">Logout</button></a>
+        <span>Bienvenido nuevamente {{user.first_name}} </span>
+        {% else %}
+            <a href="{% url 'login' %}"><button class="btn btn-primary" type="button">Login</button></a>
+        {% endif %}
+        <div class="container text-center">
+            <h2>Listado de Productos</h2>
+        </div>
         <table class="table table-bordered border-primary text-center">
             <thead class="table-dark">
                 <tr>
@@ -21,6 +25,7 @@
                     <th scope="col">Nombre</th>
                     <th width="12%" scope="col">Precio</th>
                     <th width="10%" scope="col">Stock</th>
+                    <th width="20%" scope="col">Categoria</th>
                     <th width="20%" scope="col">Acciones</th>
                 </tr>
             </thead>
@@ -31,13 +36,19 @@
                     <td>{{item.nombre}}</td>
                     <td>{{item.precio}}</td>
                     <td>{{item.stock}}</td>
+                    <td>{{item.categoria_fk}}</td>
                     <td>
+                        {% if user.is_authenticated and user.username == "admin" %}
                         <a href="{% url 'editar' item.id %}">
                             <button type="button" class="btn btn-warning">Editar</button>
                         </a>
-                        <a href="{% url 'eliminar' item.id %}">
-                            <button type="button" class="btn btn-danger">Eliminar</button>
-                        </a>
+                            <a href="{% url 'eliminar' item.id %}">
+                                <button type="button" class="btn btn-danger">Eliminar</button>
+                            </a>
+                        {% else %}
+                            <p>Sin acciones disponibles</p>
+                        {% endif %}
+                        
                     </td>
                 </tr>
                 {% endfor %}
@@ -59,7 +70,10 @@
                 <div class="modal-body">
                     <form action="{% url 'crear' %}" method="post">
                         {% csrf_token %}
-                        <div class="mb-3">
+
+                        {% comment %}
+                        Formulario comentado de Django en HTML
+                        <!-- <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Nombre</label>
                             <input type="text" class="form-control" name="nombre" id="nombre" required>
                             <div id="nombre_producto" class="form-text">nombre entre 1 y 15 caracteres</div>
@@ -72,7 +86,19 @@
                             <label class="form-label" for="stock">Stock</label>
                             <input type="number" class="form-control" name="stock" id="stock" value="0" min="0" required>
                         </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="stock">Categoria</label>
+                            <select class="fomr-select" name="categoria" id="categoria">
+                            {% for categoria in categorias %}
+                                <option value="{{categoria.id}}">{{categoria.category_name}}</option>
+                            {% endfor %}
+                            </select>
+                        </div> -->
                         
+                        {% endcomment %}
+                        <table class="table table-bordered table-info">
+                        {{formulario.as_table}}
+                        </table>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Enviar</button>
