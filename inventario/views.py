@@ -44,7 +44,7 @@ def editarProducto(req,id):
         #producto.categoria_fk = categoria_nueva #! guardaos instancias (creacion de objetos)
         ##necesito si o si volver a guardar el producto
         #producto.save()
-        formulario = FormProducto(req.POST, instance=producto)
+        formulario = FormProducto(req.POST,req.FILES,instance=producto)
         if formulario.is_valid():
             formulario.save()
             return redirect('index')
@@ -59,7 +59,7 @@ def crearProducto(req):
     #producto = Productos(nombre=nombre_post, precio=precio_post, stock=stock_post, categoria_fk=categoria_instance)
     #producto.save() #si o si preciso el save para guardar mi producto!!!
     #? Form de creacion de prodcutos:
-    form_producto = FormProducto(req.POST)
+    form_producto = FormProducto(req.POST,req.FILES)
     if form_producto.is_valid():
         form_producto.save()
     return redirect('index')

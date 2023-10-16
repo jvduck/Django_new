@@ -19,6 +19,7 @@ class Productos(models.Model):
     nombre = models.CharField(max_length=30, null=False)
     precio = models.FloatField()
     stock = models.IntegerField(default=0)
+    imagen = models.ImageField(upload_to='img_inventario', null=True, blank=True)
     categoria_fk = models.ForeignKey(Categorias, on_delete=models.CASCADE,default=1) #esta sera la FK que nos relaciona con la clase categoria
     
     def __str__(self):

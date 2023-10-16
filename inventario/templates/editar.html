@@ -9,8 +9,9 @@
     <h2>Editar un producto</h2>
 </div>
 <div class="container-sm text-center">
-    <form class="form-control" action="{% url 'editar' producto.id %}" method="post">
+    <form class="form-control" action="{% url 'editar' producto.id %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
+        <!--
         {% comment %}
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Nombre</label>
@@ -38,7 +39,7 @@
                 </select>
             </div>
         {% endcomment %}
-
+        -->
         <table class="table table-bordered table-warning">
             {{formulario.as_table}}
         </table>
